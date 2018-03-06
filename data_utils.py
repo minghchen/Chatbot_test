@@ -179,7 +179,7 @@ def data_to_token_ids(data_path, target_quary_path, target_answer_path, vocabula
           last_line = ' '
           for line in data_file:
             counter += 1
-            if counter % 10000 == 0:
+            if counter % 10000 == 0 and counter < 200000:
               print("  tokenizing line %d" % counter)
               print("  quary: ", last_line, "  answer: ", line)
             last_line = line
@@ -226,17 +226,7 @@ def read_data(config, tokenized_quary_path, tokenized_answer_path, max_size=None
   return data_set
 
 def prepare_data(gen_config):
-  """Get dialog data into data_dir, create vocabularies and tokenize data.
-
-  Args:
-    data_dir: directory in which the data sets will be stored.
-    vocabulary_size: size of the English vocabulary to create and use.
-
-  Returns:
-    A tuple of 3 elements:
-      (1) path to the token-ids for chat training data-set,
-      (2) path to the token-ids for chat development data-set,
-      (3) path to the chat vocabulary file
+  """Get dialog data into dev_set, train_set, create vocabularies and tokenize data.
   """
   # Get dialog data to the specified directory.
   data_dir = gen_config.train_dir
@@ -320,6 +310,16 @@ def prepare_disc_data(config):
 import random
 from six.moves import xrange
 import numpy as np
+def get_bucket_id(config, bucket_sizes):
+    # Choose a bucket according to disc_data distribution. We pick a random number
+    # in [0, 1] and use the corresponding interval in train_buckets_scale.
+    total_size = float(sum(bucket_sizes))
+    buckets_scale = [sum(bucket_sizes[:i + 1]) / total_size
+                            for i in xrange(len(bucket_sizes))]
+    random_number_01 = np.random.random_sample()
+    bucket_id = min([i for i in range(len(buckets_scale)) if buckets_scale[i] > random_number_01])
+    return bucket_id
+
 def get_batch(config, data, bucket_id):
     """Get a random batch of data from the specified bucket, prepare for step.
 
