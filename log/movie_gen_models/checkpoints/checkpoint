@@ -1,2 +1,0 @@
-model_checkpoint_path: "/home/chenminghao/git_work/Chatbot_test/log/movie_gen_models/checkpoints/gen.model-4000"
-all_model_checkpoint_paths: "/home/chenminghao/git_work/Chatbot_test/log/movie_gen_models/checkpoints/gen.model-4000"
