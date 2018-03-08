@@ -5,6 +5,7 @@ Thus, I adopt the quickest implement of Seq2seq Chatbot by Tensorflow's new rnn 
 Hope you and me will get some insight into Seq2seq after completing the notebook.
 
 For more instruction and demonstration of Basic Seq2seq, please read the chatbot_test.ipynb.
+A better Chinese instruction of this project can be found at zhihu: https://zhuanlan.zhihu.com/p/34357774
 
 ```
 Q: do you have a free moment ?
